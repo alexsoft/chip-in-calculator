@@ -24,7 +24,7 @@ func main() {
 	flags.Parse(&opts)
 
 	if opts.ExchangeRate <= 0 {
-		fmt.Println("Exchange rate is not provided")
+		fmt.Println("Valid exchange rate must be provided")
 		os.Exit(1)
 	}
 
