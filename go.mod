@@ -1,4 +1,4 @@
-module github.com/alexsoft/chip-in-go
+module github.com/alexsoft/chip-in-calculator
 
 go 1.25.5
 
