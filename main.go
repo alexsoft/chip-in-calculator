@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"os"
 
 	"github.com/umputun/go-flags"
@@ -49,7 +48,7 @@ func main() {
 
 func calculateWithExchangeRate(rate float64) []*Share {
 	return []*Share{
-		NewShare("Netflix", int64(math.Round(netflixPrice/netflixMembersCount*rate))),
-		NewShare("Spotify", int64(math.Round(spotifyPrice/spotifyMembersCount*rate))),
+		NewShare("Netflix", CalculateShare(netflixPrice, netflixMembersCount, rate)),
+		NewShare("Spotify", CalculateShare(spotifyPrice, spotifyMembersCount, rate)),
 	}
 }
