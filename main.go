@@ -18,6 +18,18 @@ var opts struct {
 	ExchangeRate float64 `short:"r" long:"rate" description:"current EUR -> UAH rate"`
 }
 
+type Share struct {
+	name   string
+	amount int64
+}
+
+func NewShare(name string, amount int64) *Share {
+	return &Share{
+		name:   name,
+		amount: amount,
+	}
+}
+
 func main() {
 	fmt.Printf("chip-in-go\n")
 
@@ -30,10 +42,14 @@ func main() {
 
 	fmt.Printf("Exchange rate: %v\n", opts.ExchangeRate)
 
-	calculateWithExchangeRate(opts.ExchangeRate)
+	for _, share := range calculateWithExchangeRate(opts.ExchangeRate) {
+		fmt.Printf("%s: %v UAH\n", share.name, share.amount)
+	}
 }
 
-func calculateWithExchangeRate(rate float64) {
-	fmt.Println("Netflix:", math.Round(netflixPrice/netflixMembersCount*rate), "UAH")
-	fmt.Println("Spotify:", math.Round(spotifyPrice/spotifyMembersCount*rate), "UAH")
+func calculateWithExchangeRate(rate float64) []*Share {
+	return []*Share{
+		NewShare("Netflix", int64(math.Round(netflixPrice/netflixMembersCount*rate))),
+		NewShare("Spotify", int64(math.Round(spotifyPrice/spotifyMembersCount*rate))),
+	}
 }
