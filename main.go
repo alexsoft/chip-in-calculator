@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/alexsoft/chip-in-calculator/calculator"
+	"github.com/alexsoft/chip-in-calculator/config"
+	"github.com/alexsoft/chip-in-calculator/sender"
 	"github.com/umputun/go-flags"
 )
 
@@ -17,20 +20,14 @@ var opts struct {
 	ExchangeRate float64 `short:"r" long:"rate" description:"current EUR -> UAH rate"`
 }
 
-type Share struct {
-	name   string
-	amount int64
-}
-
-func NewShare(name string, amount int64) *Share {
-	return &Share{
-		name:   name,
-		amount: amount,
-	}
-}
-
 func main() {
 	fmt.Printf("chip-in-go\n")
+
+	cfg, err := config.Load("config.json")
+	if err != nil {
+		fmt.Println("Error loading config:", err)
+		os.Exit(1)
+	}
 
 	flags.Parse(&opts)
 
@@ -38,17 +35,15 @@ func main() {
 		fmt.Println("Valid exchange rate must be provided")
 		os.Exit(1)
 	}
-
 	fmt.Printf("Exchange rate: %v\n", opts.ExchangeRate)
 
-	for _, share := range calculateWithExchangeRate(opts.ExchangeRate) {
-		fmt.Printf("%s: %v UAH\n", share.name, share.amount)
-	}
-}
+	calculator := calculator.NewCalculator(cfg.Subscriptions)
 
-func calculateWithExchangeRate(rate float64) []*Share {
-	return []*Share{
-		NewShare("Netflix", CalculateShare(netflixPrice, netflixMembersCount, rate)),
-		NewShare("Spotify", CalculateShare(spotifyPrice, spotifyMembersCount, rate)),
+	shares := calculator.Calculate(opts.ExchangeRate)
+
+	sender := sender.GetSender()
+
+	for _, share := range shares {
+		sender.Send(fmt.Sprintf("%s: %v UAH", share.Name, share.Amount))
 	}
 }
