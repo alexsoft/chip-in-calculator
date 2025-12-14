@@ -1,0 +1,14 @@
+{
+  "subscriptions": [
+    {
+      "name": "Spotify",
+      "price": 21.99,
+      "membersCount": 5
+    },
+    {
+      "name": "Netflix",
+      "price": 21.99,
+      "membersCount": 3
+    }
+  ]
+}
