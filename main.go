@@ -6,7 +6,7 @@ import (
 
 	"github.com/alexsoft/chip-in-calculator/calculator"
 	"github.com/alexsoft/chip-in-calculator/config"
-	"github.com/alexsoft/chip-in-calculator/sender"
+	"github.com/alexsoft/chip-in-calculator/notifier"
 	"github.com/umputun/go-flags"
 )
 
@@ -37,13 +37,13 @@ func main() {
 	}
 	fmt.Printf("Exchange rate: %v\n", opts.ExchangeRate)
 
-	calculator := calculator.NewCalculator(cfg.Subscriptions)
+	calc := calculator.NewCalculator(cfg.Subscriptions)
 
-	shares := calculator.Calculate(opts.ExchangeRate)
+	notify := notifier.GetNotifier()
 
-	sender := sender.GetSender()
+	for _, share := range calc.Calculate(opts.ExchangeRate) {
+		formatter := notifier.GetFormatter(share)
 
-	for _, share := range shares {
-		sender.Send(fmt.Sprintf("%s: %v UAH", share.Name, share.Amount))
+		notify.Send(formatter.Format(share))
 	}
 }
