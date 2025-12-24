@@ -42,8 +42,8 @@ func main() {
 	notify := notifier.GetNotifier()
 
 	for _, share := range calc.Calculate(opts.ExchangeRate) {
-		formatter := notifier.GetFormatter(share)
-
-		notify.Send(formatter.Format(share))
+		if err := notify.Send(notifier.Format(share)); err != nil {
+			fmt.Printf("Failed to send notification: %v, %v, %T\n", err, share, notify)
+		}
 	}
 }
