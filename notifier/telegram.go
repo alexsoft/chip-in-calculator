@@ -50,7 +50,7 @@ func (s *TelegramSender) Send(message string) error {
 		return err
 	}
 
-	defer resp.Body.Close()
+	defer resp.Body.Close() // nolint
 
 	if resp.StatusCode != http.StatusOK {
 		fmt.Printf("Telegram API returned status code %d\n", resp.StatusCode)
