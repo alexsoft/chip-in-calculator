@@ -10,11 +10,12 @@ COPY . .
 RUN go build -o chip-in-calculator ./
 
 # Production stage
-FROM alpine:3 AS prod
+FROM scratch AS prod
 
-WORKDIR /prod
+WORKDIR /
 
-COPY --from=builder /build/chip-in-calculator ./chip-in-calculator
-COPY --from=builder /build/config.json ./config.json
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /build/chip-in-calculator /chip-in-calculator
+COPY --from=builder /build/config.json /config.json
 
-ENTRYPOINT ["/prod/chip-in-calculator"]
+ENTRYPOINT ["/chip-in-calculator"]
