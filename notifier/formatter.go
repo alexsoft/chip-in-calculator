@@ -16,5 +16,5 @@ func Format(share *calculator.Share) string {
 		return fmt.Sprintf(template, share.Amount, "🎫")
 	}
 
-	return fmt.Sprintf("%s: %v UAH", share.Name, share.Amount)
+	return fmt.Sprintf("%s: ₴%v", share.Name, share.Amount)
 }
