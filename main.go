@@ -12,18 +12,20 @@ import (
 
 var opts struct {
 	ExchangeRate float64 `short:"r" long:"rate" description:"current EUR -> UAH rate"`
+	ConfigPath   string  `short:"c" long:"config" default:"config.json" description:"path to config file"`
 }
 
 func main() {
 	fmt.Printf("chip-in-go\n")
 
-	cfg, err := config.Load("config.json")
+	flags.Parse(&opts) // nolint
+
+	cfg, err := config.Load(opts.ConfigPath)
+
 	if err != nil {
 		fmt.Println("Error loading config:", err)
 		os.Exit(1)
 	}
-
-	flags.Parse(&opts) // nolint
 
 	if opts.ExchangeRate <= 0 {
 		fmt.Println("Valid exchange rate must be provided")
