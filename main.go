@@ -13,6 +13,7 @@ import (
 var opts struct {
 	ExchangeRate float64 `short:"r" long:"rate" description:"current EUR -> UAH rate"`
 	ConfigPath   string  `short:"c" long:"config" default:"config.json" description:"path to config file"`
+	Mentions     string  `long:"mentions" description:"Mentions to put into message after greeting"`
 }
 
 func main() {
@@ -40,7 +41,7 @@ func main() {
 	notify := notifier.GetNotifier()
 
 	for _, share := range calc.Calculate(opts.ExchangeRate) {
-		if err := notify.Send(notifier.Format(share)); err != nil {
+		if err := notify.Send(notifier.Format(share, opts.Mentions)); err != nil {
 			fmt.Printf("Failed to send notification: %v, %v, %T\n", err, share, notify)
 		}
 	}
