@@ -18,10 +18,12 @@ var opts struct {
 func main() {
 	fmt.Printf("chip-in-go\n")
 
-	flags.Parse(&opts) // nolint
+	if _, err := flags.Parse(&opts); err != nil {
+		fmt.Println("Error parsing flags:", err)
+		os.Exit(1)
+	}
 
 	cfg, err := config.Load(opts.ConfigPath)
-
 	if err != nil {
 		fmt.Println("Error loading config:", err)
 		os.Exit(1)
