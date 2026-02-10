@@ -2,11 +2,12 @@
 
 ## How to run
 
-### Required flags
+### Flags
 
-| Flag           | Description                 |
-| -------------- | --------------------------- |
-| `-r`, `--rate` | EUR to UAH rate, e.g. 44.12 |
+| Flag             | Required | Default       | Description                 |
+| ---------------- | -------- | ------------- | --------------------------- |
+| `-r`, `--rate`   | Yes      | —             | EUR to UAH rate, e.g. 44.12 |
+| `-c`, `--config` | No       | `config.json` | Path to config file         |
 
 ### Build docker image
 
@@ -16,6 +17,11 @@ docker build -t chip-in-calculator . \
 
 docker build -t chip-in-calculator . \
 && docker run --rm chip-in-calculator --rate 47.11
+
+# With custom config file
+docker build -t chip-in-calculator . \
+&& docker run --rm -v $(pwd)/config2.json:/config2.json \
+chip-in-calculator -r 45.33 -c config2.json
 ```
 
 #### Send message to Telegram
@@ -36,6 +42,10 @@ go build ./ \
 
 go build ./ \
 && ./chip-in-calculator --rate 47.11
+
+# With custom config file
+go build ./ \
+&& ./chip-in-calculator -r 45.33 -c config2.json
 ```
 
 #### Send message to Telegram
