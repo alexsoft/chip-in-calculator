@@ -1,6 +1,8 @@
 package notifier
 
 import (
+	"slices"
+	"strings"
 	"testing"
 
 	"github.com/alexsoft/chip-in-calculator/calculator"
@@ -8,19 +10,42 @@ import (
 
 func TestFormat(t *testing.T) {
 	tests := []struct {
-		share    calculator.Share
-		expected string
+		share          calculator.Share
+		mentions       string
+		expectedPrefix string
 	}{
-		{calculator.Share{Name: "Spotify", Amount: 10}, "Усім привіт! 🙃\nЗа Spotify в цьому місяці – ₴10 🎫"},
-		{calculator.Share{Name: "Netflix", Amount: 150}, "Здорова! А за Netflix – ₴150 🙃 🎫"},
-		{calculator.Share{Name: "Default", Amount: 111}, "Default: ₴111"},
+		{calculator.Share{Name: "Spotify", Amount: 10}, "@user1 @user2", "Усім привіт! @user1 @user2\nЗа Spotify в цьому місяці – ₴10 "},
+		{calculator.Share{Name: "Spotify", Amount: 10}, "", "Усім привіт! \nЗа Spotify в цьому місяці – ₴10 "},
+		{calculator.Share{Name: "Netflix", Amount: 150}, "", "Здорова! А за Netflix – ₴150 "},
 	}
 
 	for _, tt := range tests {
-		actual := Format(&tt.share)
+		actual := Format(&tt.share, tt.mentions)
 
-		if actual != tt.expected {
-			t.Errorf("Format(%q) = %q, want %q", tt.share.Name, actual, tt.expected)
+		if !strings.HasPrefix(actual, tt.expectedPrefix) {
+			t.Errorf("Format(%q) = %q, want prefix %q", tt.share.Name, actual, tt.expectedPrefix)
 		}
+
+		emoji := strings.TrimPrefix(actual, tt.expectedPrefix)
+		if !slices.Contains(emojis, emoji) {
+			t.Errorf("Format(%q) emoji = %q, want one of the predefined emojis", tt.share.Name, emoji)
+		}
+	}
+}
+
+func TestFormatDefault(t *testing.T) {
+	share := calculator.Share{Name: "Default", Amount: 111}
+	actual := Format(&share, "")
+	expected := "Default: ₴111"
+
+	if actual != expected {
+		t.Errorf("Format(%q) = %q, want %q", share.Name, actual, expected)
+	}
+}
+
+func TestRandomEmoji(t *testing.T) {
+	emoji := randomEmoji()
+	if !slices.Contains(emojis, emoji) {
+		t.Errorf("randomEmoji() = %q, want one of the predefined emojis", emoji)
 	}
 }
