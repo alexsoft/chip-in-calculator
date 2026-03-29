@@ -56,7 +56,7 @@ func TestCalculate(t *testing.T) {
 	}
 
 	if actual[1].Name != "Subscription 2" {
-		t.Errorf("Calculate(11) = %s; want %s", actual[1].Name, "Subscription 1")
+		t.Errorf("Calculate(11) = %s; want %s", actual[1].Name, "Subscription 2")
 	}
 	if actual[1].Amount != 84 {
 		t.Errorf("Calculate(11) = %d; want %s", actual[1].Amount, "84 (amount)")

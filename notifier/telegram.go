@@ -65,7 +65,7 @@ func (s *TelegramSender) Send(message string) error {
 
 		fmt.Printf("Response: %s\n", string(body))
 
-		return fmt.Errorf("failed to send message to Telegram")
+		return fmt.Errorf("failed to send message to Telegram: %d: %s", resp.StatusCode, body)
 	}
 
 	return nil
