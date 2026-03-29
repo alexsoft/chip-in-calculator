@@ -8,14 +8,17 @@ func TestGetNotifierTelegram(t *testing.T) {
 	t.Setenv("TELEGRAM_BOT_API_KEY", "1111111111:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 	t.Setenv("TELEGRAM_CHAT_ID", "123456")
 
-	notifier := GetNotifier()
+	n, err := GetNotifier()
 
-	if _, ok := notifier.(*TelegramSender); !ok {
-		t.Errorf("expected *TelegramSender, got %T", notifier)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if _, ok := n.(*TelegramSender); !ok {
+		t.Errorf("expected *TelegramSender, got %T", n)
 	}
 }
 
-func TestGetNotifierNil(t *testing.T) {
+func TestGetNotifierError(t *testing.T) {
 	tests := []struct {
 		name    string
 		envVars map[string]string
@@ -44,10 +47,10 @@ func TestGetNotifierNil(t *testing.T) {
 				t.Setenv(k, v)
 			}
 
-			notifier := GetNotifier()
+			n, err := GetNotifier()
 
-			if _, ok := notifier.(*NilSender); !ok {
-				t.Errorf("expected *NilSender, got %T", notifier)
+			if err == nil {
+				t.Errorf("expected error, got notifier %T", n)
 			}
 		})
 	}

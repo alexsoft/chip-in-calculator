@@ -13,7 +13,7 @@ import (
 var opts struct {
 	ExchangeRate float64 `short:"r" long:"rate" description:"current EUR -> UAH rate"`
 	ConfigPath   string  `short:"c" long:"config" default:"config.json" description:"path to config file"`
-	Mentions     string  `long:"mentions" description:"Mentions to put into message after greeting"`
+	Mentions     string  `long:"mentions" description:"Mentions to put into message after greeting (Spotify only)"`
 }
 
 func main() {
@@ -38,7 +38,11 @@ func main() {
 
 	calc := calculator.NewCalculator(cfg.Subscriptions)
 
-	notify := notifier.GetNotifier()
+	notify, err := notifier.GetNotifier()
+	if err != nil {
+		fmt.Println("Error initializing notifier:", err)
+		os.Exit(1)
+	}
 
 	for _, share := range calc.Calculate(opts.ExchangeRate) {
 		if err := notify.Send(notifier.Format(share, opts.Mentions)); err != nil {
