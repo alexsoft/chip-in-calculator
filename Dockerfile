@@ -1,4 +1,4 @@
-FROM golang:1.25-alpine AS builder
+FROM golang:1.26-alpine AS builder
 
 WORKDIR /build
 
@@ -7,7 +7,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o chip-in-calculator ./
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o chip-in-calculator ./
 
 # Production stage
 FROM scratch AS prod
