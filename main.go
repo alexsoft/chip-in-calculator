@@ -17,10 +17,15 @@ var opts struct {
 }
 
 func main() {
-	fmt.Printf("chip-in-go\n")
+	fmt.Println("chip-in-go")
 
 	if _, err := flags.Parse(&opts); err != nil {
 		fmt.Println("Error parsing flags:", err)
+		os.Exit(1)
+	}
+
+	if opts.ExchangeRate <= 0 {
+		fmt.Println("Valid exchange rate must be provided")
 		os.Exit(1)
 	}
 
@@ -30,10 +35,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	if opts.ExchangeRate <= 0 {
-		fmt.Println("Valid exchange rate must be provided")
-		os.Exit(1)
-	}
 	fmt.Printf("Exchange rate: %v\n", opts.ExchangeRate)
 
 	calc := calculator.NewCalculator(cfg.Subscriptions)
