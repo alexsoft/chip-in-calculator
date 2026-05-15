@@ -1,5 +1,7 @@
 module github.com/alexsoft/chip-in-calculator
 
-go 1.25.5
+go 1.26
 
-require github.com/umputun/go-flags v1.5.1
+require github.com/jessevdk/go-flags v1.6.1
+
+require golang.org/x/sys v0.44.0 // indirect
