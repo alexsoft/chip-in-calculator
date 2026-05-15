@@ -7,7 +7,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o chip-in-calculator ./
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o chip-in-calculator ./
 
 # Production stage
 FROM scratch AS prod
