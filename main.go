@@ -7,7 +7,7 @@ import (
 	"github.com/alexsoft/chip-in-calculator/calculator"
 	"github.com/alexsoft/chip-in-calculator/config"
 	"github.com/alexsoft/chip-in-calculator/notifier"
-	"github.com/umputun/go-flags"
+	"github.com/jessevdk/go-flags"
 )
 
 var opts struct {
