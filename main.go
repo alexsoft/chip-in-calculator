@@ -19,7 +19,7 @@ var opts struct {
 }
 
 func main() {
-	fmt.Println("chip-in-go")
+	fmt.Println("chip-in-calculator")
 
 	if _, err := flags.Parse(&opts); err != nil {
 		fmt.Println("Error parsing flags:", err)
