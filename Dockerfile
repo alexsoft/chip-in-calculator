@@ -16,6 +16,5 @@ WORKDIR /
 
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /build/chip-in-calculator /chip-in-calculator
-COPY --from=builder /build/config.json /config.json
 
 ENTRYPOINT ["/chip-in-calculator"]

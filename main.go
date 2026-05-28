@@ -1,7 +1,9 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 
 	"github.com/alexsoft/chip-in-calculator/calculator"
@@ -31,7 +33,12 @@ func main() {
 
 	cfg, err := config.Load(opts.ConfigPath)
 	if err != nil {
-		fmt.Println("Error loading config:", err)
+		if errors.Is(err, fs.ErrNotExist) {
+			fmt.Printf("Config file not found: %s\n", opts.ConfigPath)
+			fmt.Println("Mount your config file: docker run -v $(pwd)/config.json:/config.json ...")
+		} else {
+			fmt.Println("Error loading config:", err)
+		}
 		os.Exit(1)
 	}
 
