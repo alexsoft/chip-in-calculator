@@ -30,14 +30,14 @@ docker run --rm \
   -v $(pwd)/config.json:/config.json \
   -e TELEGRAM_BOT_API_KEY=1111111111:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA \
   -e TELEGRAM_CHAT_ID=123456 \
-  ghcr.io/alexsoft/chip-in-calculator --rate 45.33
+  ghcr.io/alexsoft/chip-in-calculator:1.0.1 --rate 45.33
 
 # With mentions
 docker run --rm \
   -v $(pwd)/config.json:/config.json \
   -e TELEGRAM_BOT_API_KEY=1111111111:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA \
   -e TELEGRAM_CHAT_ID=123456 \
-  ghcr.io/alexsoft/chip-in-calculator --rate 45.33 --mentions "@user1 @user2"
+  ghcr.io/alexsoft/chip-in-calculator:1.0.1 --rate 45.33 --mentions "@user1 @user2"
 ```
 
 ## Build locally, Go 1.26+
