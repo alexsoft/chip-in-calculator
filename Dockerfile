@@ -12,6 +12,8 @@ RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o chip-in-calculator ./
 # Production stage
 FROM scratch AS prod
 
+LABEL org.opencontainers.image.source=https://github.com/alexsoft/chip-in-go
+
 WORKDIR /
 
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
