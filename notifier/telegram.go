@@ -23,7 +23,6 @@ func (s *TelegramSender) Send(message string) error {
 		return errors.New("missing Telegram chat ID")
 	}
 
-	// Implementation for sending message via Telegram API
 	fmt.Println("Sending message via Telegram:", message)
 
 	body, err := json.Marshal(map[string]any{

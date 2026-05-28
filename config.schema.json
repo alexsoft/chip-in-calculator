@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Chip-in Calculator Config",
+  "type": "object",
+  "required": ["subscriptions"],
+  "additionalProperties": false,
+  "properties": {
+    "subscriptions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "price", "membersCount"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "price": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "membersCount": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    }
+  }
+}
