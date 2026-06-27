@@ -9,12 +9,15 @@
 **/.github
 **/.serena
 **/.classpath
+**/.claude
 **/.dockerignore
 **/.env
+**/.env.dist
 **/.git
 **/.gitignore
 **/.project
 **/.settings
+**/.stuff
 **/.toolstarget
 **/.vs
 **/.vscode
@@ -23,6 +26,8 @@
 **/*.jfm
 **/bin
 **/charts
+**/chip-in-calculator
+**/config.json
 **/docker-compose*
 **/compose.y*ml
 **/Dockerfile*
@@ -33,5 +38,4 @@
 **/values.dev.yaml
 LICENSE
 README.md
-chip-in-calculator
 config.schema.json
