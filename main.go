@@ -8,12 +8,13 @@ import (
 
 	"github.com/alexsoft/chip-in-calculator/calculator"
 	"github.com/alexsoft/chip-in-calculator/config"
+	"github.com/alexsoft/chip-in-calculator/exchangerate"
 	"github.com/alexsoft/chip-in-calculator/notifier"
 	"github.com/jessevdk/go-flags"
 )
 
 var opts struct {
-	ExchangeRate float64 `short:"r" long:"rate" description:"current EUR -> UAH rate"`
+	ExchangeRate float64 `short:"r" long:"rate" description:"current EUR -> UAH rate (fetched from Monobank if omitted)"`
 	ConfigPath   string  `short:"c" long:"config" default:"config.json" description:"path to config file"`
 	Mentions     string  `long:"mentions" description:"Mentions to put into message after greeting (Spotify only)"`
 }
@@ -27,8 +28,15 @@ func main() {
 	}
 
 	if opts.ExchangeRate <= 0 {
-		fmt.Println("Valid exchange rate must be provided")
-		os.Exit(1)
+		rate, err := exchangerate.NewMonobankClient().EURUAHRate()
+		if err != nil {
+			fmt.Println("Error fetching EUR/UAH rate from Monobank:", err)
+			fmt.Println("Provide it manually with --rate")
+			os.Exit(1)
+		}
+
+		fmt.Printf("Fetched EUR/UAH rate from Monobank: %v\n", rate)
+		opts.ExchangeRate = rate
 	}
 
 	cfg, err := config.Load(opts.ConfigPath)

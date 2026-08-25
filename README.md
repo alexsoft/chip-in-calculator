@@ -4,7 +4,7 @@
 
 | Flag             | Required | Default       | Description                                 |
 | ---------------- | -------- | ------------- | ------------------------------------------- |
-| `-r`, `--rate`   | Yes      | —             | EUR to UAH rate, e.g. 44.12                 |
+| `-r`, `--rate`   | No       | fetched from Monobank | EUR to UAH rate, e.g. 44.12. If omitted, the current Monobank EUR/UAH sell rate is fetched automatically |
 | `-c`, `--config` | No       | `config.json` | Path to config file                         |
 | `--mentions`     | No       | —             | Mentions to put into message after greeting |
 
